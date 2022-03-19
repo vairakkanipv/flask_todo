@@ -31,8 +31,10 @@ def index():
     # todo = Todo(title='My_doo1',complete=False)
     # db.session.add(todo)
     # db.session.commit()
+    not_complete = Todo.query.filter_by(complete=False).all()
+    complete = Todo.query.filter_by(complete=True).all()
 
-    return render_template('index.html')
+    return render_template('index.html',not_complete=not_complete,complete=complete)
 
 @app.route('/add', methods=['POST'])
 def add():
@@ -42,6 +44,39 @@ def add():
     db.session.commit()
     return redirect(url_for('index'))
 
+@app.route('/complete/<id>')
+def complete(id):
+    todo = Todo.query.filter_by(id=int(id)).first()
+    todo.complete = True
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/not_complete/<id>')
+def not_complete(id):
+    todo = Todo.query.filter_by(id=int(id)).first()
+    todo.complete = False
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/edit/<id>')
+def edit(id):
+    todo = Todo.query.filter_by(id=int(id)).first()
+    return render_template('edit.html',todo=todo)
+
+@app.route('/update',methods=['POST'])
+def update():
+    id = request.form['id']
+    todo = Todo.query.filter_by(id=int(id)).first()
+    todo.title = request.form['title']
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/delete/<id>')
+def delete(id):
+    todo = Todo.query.filter_by(id=int(id)).first()
+    db.session.delete(todo)
+    db.session.commit()
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(debug=True)

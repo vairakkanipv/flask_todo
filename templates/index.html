@@ -7,19 +7,60 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
-<div class="jumbotron text-center">
+<div class="well text-center">
   <h1>My ToDo App</h1>
 </div>
 
-<div>
-    <form action="{{ url_for('add') }}" method="POST">
-        <label>Todo Title: </label>
-        <input type="text" name="title" placeholder="Enter ToDo...">
-        <input type="submit" name="add" value="ADD">
-    </form>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="page-header">
+                <h1>Form</h1>
+            </div>
+            <form action="{{ url_for('add') }}" method="POST">
+                <div class="form-group">
+                    <label for="title">Todo Title:</label>
+                    <input type="text" class="form-control" id="title" placeholder="Enter ToDo..." name="title">
+                </div>
+                <input type="submit" name="add" value="Submit" class="btn btn-success">
+            </form>
+        </div>
+        <div class="col-sm-5">
+            <div class="page-header">
+                <h1>In Complete</h1>
+                <ol>
+                {% for todo in not_complete %}
+                    <div class="row">
+                        <div class="col-sm-6"><li style="font-size: 20pt">| {{ todo.title }} </li></div>
+
+
+                        <a href="{{ url_for('complete', id=todo.id) }}"><i class="fa fa-check-square-o" aria-hidden="true" style="font-size:25px;color:green"></i></a> | <a style="color: red" href="{{ url_for('delete', id=todo.id) }}"><i class="fa fa-trash-o" style="font-size:25px;color:red"></i></a> | <a href="{{ url_for('edit', id=todo.id) }}"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size:25px;color:blue"></i></a>
+                    </div>
+                {% endfor%}
+                </ol>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="page-header">
+                <h1>Completed</h1>
+                <ol>
+                {% for todo in complete %}
+                    <li style="font-size: 20pt">| {{ todo.title }}  | <a style="color: red" href="{{ url_for('delete', id=todo.id) }}"><i class="fa fa-trash-o" style="font-size:25px;color:red"></i></a> | <a href="{{ url_for('not_complete', id=todo.id) }}"><i class="fa fa-window-close-o" aria-hidden="true" style="font-size:25px;color:red"></i></a></li>
+                {% endfor%}
+                </ol>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
 </div>
 
 </body>
