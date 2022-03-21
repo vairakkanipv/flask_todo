@@ -8,13 +8,45 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Amita' rel='stylesheet'>
+	<style>
+	body {
+	    font-family: 'Amita';font-size: 10px;
+	}
+	.flashes{
+		height: 40px;
+  		width: 500px;
+  		display:none;
+  		color:#fff;
+
+	}
+	</style>
 </head>
 <body>
 
 <div class="well text-center">
-  <h1>My To Do List</h1>
+  <h1 style="font-family: 'Aldrich';font-size: 28px">My To Do List</h1>
 </div>
-<navbar></navbar>
+{% with messages = get_flashed_messages(category_filter=["success"]) %}
+        {% if messages %}
+            <div class='flashes center-block' >
+                {% for message in messages %}
+                    <h3 style="" class="text-center text-success">{{ message }}</h3>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% with errors = get_flashed_messages(category_filter=["error"]) %}
+        {% if errors %}
+            <div class='flashes center-block' style="">
+                {% for msg in errors %}
+                    <h3 style="color: red" class="text-center">{{ msg }}</h3>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 <div class="container">
 	<div class="row">
 		<div class="col-sm-2">
@@ -35,7 +67,7 @@
 				<ol>
 				{% for todo in not_complete %}
 					<div class="row">
-						<div class="col-sm-9"><li style="font-size: 20pt">| {{ todo.title }} </li></div>
+						<div class="col-sm-9"><li style="font-size: 17pt">| {{ todo.title }} </li></div>
 
 						<div class="col-sm-3">
 							<a href="{{ url_for('complete', id=todo.id) }}"><i class="fa fa-check-square-o" aria-hidden="true" style="font-size:20px;color:green"></i></a> | <a style="color: red" href="{{ url_for('delete', id=todo.id) }}"><i class="fa fa-trash-o" style="font-size:20px;color:red"></i></a> | <a href="{{ url_for('edit', id=todo.id) }}"><i class="fa fa-pencil-square-o text-info" aria-hidden="true" style="font-size:20px;"></i></a>
@@ -52,7 +84,7 @@
 				{% for todo in complete %}
 					 <div class="row">
 						<div class="col-sm-9">
-							<li style="font-size: 20pt">| {{ todo.title }}</li>
+							<li style="font-size: 17pt">| {{ todo.title }}</li>
 						</div>
 						<div class="col-sm-3">
 					  |     <a style="color: red" href="{{ url_for('delete', id=todo.id) }}"><i class="fa fa-trash-o" style="font-size:20px;color:red"></i></a> | <a href="{{ url_for('not_complete', id=todo.id) }}"><i class="fa fa-window-close-o" aria-hidden="true" style="font-size:20px;color:red"></i></a>
@@ -70,6 +102,12 @@
 
 
 </div>
-
+<script>
+        $(function() {
+           $('.flashes').delay(500).fadeIn('normal', function() {
+              $(this).delay(2500).fadeOut();
+           });
+        });
+    </script>
 </body>
 </html>

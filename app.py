@@ -1,10 +1,11 @@
-from flask import Flask, escape, request, render_template, url_for, redirect
+from flask import Flask, flash, escape, request, render_template, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = 'V@iRaKk@Ni'
 db = SQLAlchemy(app)
 
 
@@ -43,8 +44,9 @@ def add():
         todo = Todo(title=title,complete=False)
         db.session.add(todo)
         db.session.commit()
+        flash('You were successfully added into todo list','success')
     else:
-        pass
+        flash('Failed invalid input','error')
     return redirect(url_for('index'))
 
 @app.route('/complete/<id>')
