@@ -79,4 +79,6 @@ def delete(id):
     return redirect(url_for('index'))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    #app.run(debug=True)
+    #app.run(host='192.111.222.333', port=4005, debug =True)
+    app.run(port=4005, debug =True)
