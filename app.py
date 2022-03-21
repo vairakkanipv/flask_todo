@@ -38,10 +38,13 @@ def index():
 
 @app.route('/add', methods=['POST'])
 def add():
-    title = request.form['title']
-    todo = Todo(title=title,complete=False)
-    db.session.add(todo)
-    db.session.commit()
+    title = request.form['title'].strip()
+    if title :
+        todo = Todo(title=title,complete=False)
+        db.session.add(todo)
+        db.session.commit()
+    else:
+        pass
     return redirect(url_for('index'))
 
 @app.route('/complete/<id>')

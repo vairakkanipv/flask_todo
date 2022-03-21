@@ -14,7 +14,7 @@
 <div class="well text-center">
   <h1>My To Do List</h1>
 </div>
-
+<navbar></navbar>
 <div class="container">
 	<div class="row">
 		<div class="col-sm-2">
@@ -24,7 +24,7 @@
 			<form action="{{ url_for('add') }}" method="POST">
 				<div class="form-group">
 					<label for="title">Todo Title:</label>
-					<input type="text" class="form-control" id="title" placeholder="Enter ToDo..." name="title">
+					<input type="text" class="form-control" id="title" placeholder="Enter ToDo..." name="title" required>
 				</div>
 				<input type="submit" name="add" value="Submit" class="btn btn-success">
 			</form>
@@ -35,10 +35,10 @@
 				<ol>
 				{% for todo in not_complete %}
 					<div class="row">
-						<div class="col-sm-6"><li style="font-size: 20pt">| {{ todo.title }} </li></div>
+						<div class="col-sm-9"><li style="font-size: 20pt">| {{ todo.title }} </li></div>
 
-						<div class="col-sm-6">
-							<a href="{{ url_for('complete', id=todo.id) }}"><i class="fa fa-check-square-o" aria-hidden="true" style="font-size:25px;color:green"></i></a> | <a style="color: red" href="{{ url_for('delete', id=todo.id) }}"><i class="fa fa-trash-o" style="font-size:25px;color:red"></i></a> | <a href="{{ url_for('edit', id=todo.id) }}"><i class="fa fa-pencil-square-o text-info" aria-hidden="true" style="font-size:25px;"></i></a>
+						<div class="col-sm-3">
+							<a href="{{ url_for('complete', id=todo.id) }}"><i class="fa fa-check-square-o" aria-hidden="true" style="font-size:20px;color:green"></i></a> | <a style="color: red" href="{{ url_for('delete', id=todo.id) }}"><i class="fa fa-trash-o" style="font-size:20px;color:red"></i></a> | <a href="{{ url_for('edit', id=todo.id) }}"><i class="fa fa-pencil-square-o text-info" aria-hidden="true" style="font-size:20px;"></i></a>
 						</div>
 					</div>
 				{% endfor%}
@@ -51,11 +51,11 @@
 				<ol>
 				{% for todo in complete %}
 					 <div class="row">
-						<div class="col-sm-8">
+						<div class="col-sm-9">
 							<li style="font-size: 20pt">| {{ todo.title }}</li>
 						</div>
-						<div class="col-sm-4">
-					  |     <a style="color: red" href="{{ url_for('delete', id=todo.id) }}"><i class="fa fa-trash-o" style="font-size:25px;color:red"></i></a> | <a href="{{ url_for('not_complete', id=todo.id) }}"><i class="fa fa-window-close-o" aria-hidden="true" style="font-size:25px;color:red"></i></a>
+						<div class="col-sm-3">
+					  |     <a style="color: red" href="{{ url_for('delete', id=todo.id) }}"><i class="fa fa-trash-o" style="font-size:20px;color:red"></i></a> | <a href="{{ url_for('not_complete', id=todo.id) }}"><i class="fa fa-window-close-o" aria-hidden="true" style="font-size:20px;color:red"></i></a>
 						</div>
 					</div>
 				{% endfor%}
